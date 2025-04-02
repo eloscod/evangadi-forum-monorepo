@@ -7,9 +7,6 @@ const fs = require("fs");
 // Load environment variables (e.g., DB_USER, DB_PASSWORD)
 require("dotenv").config();
 
-console.log("🌐 DB_HOST:", process.env.DB_HOST);
-console.log("🔐 DB_USER:", process.env.DB_USER);
-
 // Create a MySQL connection pool for efficient database access
 const dbConnection = mysql2.createPool({
   user: process.env.DB_USER, // Database user
@@ -17,12 +14,14 @@ const dbConnection = mysql2.createPool({
   host: process.env.DB_HOST, // Database host
   password: process.env.DB_PASSWORD, // Database password
   connectionLimit: 10, // Maximum number of concurrent connections
-  // ssl: {
-  //   ca: fs.readFileSync(process.env.DB_CA),
-  // },
-  ssl: false,
+  ssl: {
+    ca: fs.readFileSync(process.env.DB_CA),
+  },
   connectTimeout: 5000,
 });
+
+console.log("🌐 DB_HOST:", process.env.DB_HOST);
+console.log("🔐 DB_USER:", process.env.DB_USER);
 
 // Test the database connection on startup
 dbConnection.getConnection((err, connection) => {
