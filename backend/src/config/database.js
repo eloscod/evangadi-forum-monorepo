@@ -1,47 +1,42 @@
-// Import the MySQL library for Node.js
 const mysql2 = require("mysql2");
-
-// Import the filesystem library
 const fs = require("fs");
-
-// Load environment variables (e.g., DB_USER, DB_PASSWORD)
 require("dotenv").config();
-
-// Create a MySQL connection pool for efficient database access
-const dbConnection = mysql2.createPool({
-  user: process.env.DB_USER, // Database user
-  database: process.env.DB_NAME, // Database name
-  host: process.env.DB_HOST, // Database host
-  password: process.env.DB_PASSWORD, // Database password
-  connectionLimit: 10, // Maximum number of concurrent connections
-  ssl: {
-    ca: fs.readFileSync(process.env.DB_CA),
-  },
-  connectTimeout: 5000,
-});
 
 console.log("🌐 DB_HOST:", process.env.DB_HOST);
 console.log("🔐 DB_USER:", process.env.DB_USER);
+console.log("📄 DB_CA Path from .env:", process.env.DB_CA);
 
-// Test the database connection on startup
+let sslOptions = null;
+
+if (process.env.DB_CA && fs.existsSync(process.env.DB_CA)) {
+  console.log("📄 File exists: true");
+  const caContent = fs.readFileSync(process.env.DB_CA);
+  console.log("🔐 SSL CA content length:", caContent.length);
+  sslOptions = { ca: caContent };
+} else {
+  console.log("❌ CA file not found or missing path");
+}
+
+const dbConnection = mysql2.createPool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  ssl: sslOptions,
+  connectTimeout: 10000,
+  connectionLimit: 10,
+});
+
+// Test connection
 dbConnection.getConnection((err, connection) => {
   if (err) {
-    // Log error if connection fails
     console.error("❌ Error connecting to the database:", err.message);
-    return;
+    console.error("❌ Full error details:", err);
+    throw new Error("Failed to connect to DB: " + err.message);
   }
   console.log("✅ Successfully connected to the database!");
-  connection.release(); // Release the connection back to the pool
+  connection.release();
 });
 
-// Handle connection errors (e.g., if the database goes down)
-dbConnection.on("error", (err) => {
-  console.error("❌ Database connection error:", err.message);
-  if (err.code === "PROTOCOL_CONNECTION_LOST") {
-    console.log("Attempting to reconnect...");
-    // Add reconnection logic here if needed
-  }
-});
-
-// Export the connection pool with promise support for async/await
 module.exports = dbConnection.promise();
