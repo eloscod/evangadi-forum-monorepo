@@ -1,6 +1,9 @@
 // Import the MySQL library with promise support
 const mysql2 = require("mysql2/promise");
 
+// Import the filesystem library
+const fs = require("fs");
+
 // Load environment variables
 require("dotenv").config();
 
@@ -11,6 +14,10 @@ const setupConnection = async () => {
     host: process.env.DB_HOST,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
+    ssl: {
+      ca: fs.readFileSync(process.env.DB_CA),
+    },
   });
 };
 

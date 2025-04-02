@@ -1,6 +1,9 @@
 // Import the MySQL library for Node.js
 const mysql2 = require("mysql2");
 
+// Import the filesystem library
+const fs = require("fs");
+
 // Load environment variables (e.g., DB_USER, DB_PASSWORD)
 require("dotenv").config();
 
@@ -11,6 +14,9 @@ const dbConnection = mysql2.createPool({
   host: process.env.DB_HOST, // Database host
   password: process.env.DB_PASSWORD, // Database password
   connectionLimit: 10, // Maximum number of concurrent connections
+  ssl: {
+    ca: fs.readFileSync(process.env.DB_CA),
+  },
 });
 
 // Test the database connection on startup
