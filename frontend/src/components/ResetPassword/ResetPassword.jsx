@@ -17,30 +17,6 @@ const ResetPassword = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Password requirements (same as in PasswordRequirements)
-  const requirements = [
-    {
-      label: "At least 8 characters",
-      test: (pw) => pw.length >= 8,
-    },
-    {
-      label: "At least one uppercase letter",
-      test: (pw) => /[A-Z]/.test(pw),
-    },
-    {
-      label: "At least one lowercase letter",
-      test: (pw) => /[a-z]/.test(pw),
-    },
-    {
-      label: "At least one number",
-      test: (pw) => /\d/.test(pw),
-    },
-    {
-      label: "At least one special character (@$!%*?&)",
-      test: (pw) => /[@$!%*?&]/.test(pw),
-    },
-  ];
-
   // Check if all password requirements are met
   const isPasswordValid = () => {
     return requirements.every((req) => req.test(newPassword));

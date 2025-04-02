@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:7700/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const authAxios = axios.create({
   baseURL: API_URL,
@@ -21,26 +21,50 @@ authAxios.interceptors.request.use(
 );
 
 export const registerUser = async (data) => {
-  const response = await authAxios.post("/users/register", data);
-  return response.data;
+  try {
+    const response = await authAxios.post("/users/register", data);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Registration failed" };
+  }
 };
 
 export const loginUser = async (credentials) => {
-  const response = await authAxios.post("/users/login", credentials);
-  return response.data;
+  try {
+    const response = await authAxios.post("/users/login", credentials);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Login failed" };
+  }
 };
 
 export const getUserData = async () => {
-  const response = await authAxios.get("/users/me"); // Updated to match your endpoint
-  return response.data;
+  try {
+    const response = await authAxios.get("/users/me");
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to fetch user data" };
+  }
 };
 
 export const forgotPassword = async (email) => {
-  const response = await authAxios.post("/users/forgot-password", { email });
-  return response.data;
-}
+  try {
+    const response = await authAxios.post("/users/forgot-password", { email });
+    return response.data;
+  } catch (error) {
+    throw (
+      error.response?.data || { message: "Failed to send password reset email" }
+    );
+  }
+};
 
 export const resetPassword = async (token, password) => {
-  const response = await authAxios.post(`/users/reset-password/${token}`, { password });
-  return response.data;
-}
+  try {
+    const response = await authAxios.post(`/users/reset-password/${token}`, {
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to reset password" };
+  }
+};

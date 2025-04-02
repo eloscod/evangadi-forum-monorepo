@@ -11,7 +11,7 @@ const morgan = require("morgan"); // Middleware for logging HTTP requests
 const app = express();
 
 // Set the port from environment variables or default to 7700
-const port = process.env.PORT || 7700;
+const port = process.env.PORT;
 
 // ============ MIDDLEWARE SETUP ============
 
@@ -19,7 +19,7 @@ const port = process.env.PORT || 7700;
 // Restrict to the frontend URL (e.g., http://localhost:5173) for security
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173", // Frontend URL
+    origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   })
