@@ -25,11 +25,10 @@ app.use(
   })
 );
 
-// Health 
+// Health
 app.get("/health", (req, res) => {
   res.status(200).send("Backend is alive!");
 });
-
 
 // Parse incoming JSON payloads (e.g., from POST requests)
 app.use(express.json());
@@ -107,6 +106,10 @@ async function start() {
     process.exit(1); // Exit with failure code
   }
 }
+
+app.get("/", (req, res) => {
+  res.send("🚀 Evangadi Forum Backend is Running!");
+});
 
 // Start the server
 start();
