@@ -17,9 +17,10 @@ const dbConnection = mysql2.createPool({
   host: process.env.DB_HOST, // Database host
   password: process.env.DB_PASSWORD, // Database password
   connectionLimit: 10, // Maximum number of concurrent connections
-  ssl: {
-    ca: fs.readFileSync(process.env.DB_CA),
-  },
+  // ssl: {
+  //   ca: fs.readFileSync(process.env.DB_CA),
+  // },
+  ssl: false,
   connectTimeout: 5000,
 });
 

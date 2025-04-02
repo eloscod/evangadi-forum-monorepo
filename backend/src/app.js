@@ -25,6 +25,12 @@ app.use(
   })
 );
 
+// Health 
+app.get("/health", (req, res) => {
+  res.status(200).send("Backend is alive!");
+});
+
+
 // Parse incoming JSON payloads (e.g., from POST requests)
 app.use(express.json());
 
