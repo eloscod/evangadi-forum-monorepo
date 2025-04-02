@@ -1,0 +1,112 @@
+.header {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  padding: 24px 0;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  z-index: 1000;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  font-size: 26px;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  transition: all 0.3s ease; /* Added transition */
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #4f46e5;
+}
+
+.auth-button {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 6px 26px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #4338ca;
+}
+
+/* Optional welcome message style - uncomment if needed */
+/*
+.welcome-message {
+  color: #333;
+  font-size: 16px;
+  margin-right: 20px;
+}
+*/
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav {
+    position: absolute;
+    top: 88px;
+    left: 0;
+    background: white;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    width: 100%;
+    display: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav.open {
+    display: flex;
+  }
+
+  .nav-link,
+  .auth-button {
+    margin: 8px 0;
+    width: 100%;
+    text-align: left;
+    padding: 10px 0;
+  }
+
+  .auth-button {
+    width: auto;
+    padding: 6px 26px;
+  }
+}

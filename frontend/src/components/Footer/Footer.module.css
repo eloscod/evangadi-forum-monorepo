@@ -1,0 +1,114 @@
+.footer {
+  background-color: #2c3e50; /* Dark background */
+  color: #ecf0f1; /* Light text */
+  padding: 2rem 0;
+  border-top: 2px solid #3498db; /* Accent color for the top border */
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  flex-wrap: wrap;
+}
+
+.column {
+  flex: 1;
+  min-width: 200px;
+  margin: 1.5rem 0;
+}
+
+.logo {
+  width: 260px; /* Slightly larger logo */
+  margin-bottom: 1.5rem;
+}
+
+.socials {
+  display: flex;
+  gap: 1.5rem; /* More spacing between icons */
+}
+
+.socialIcon {
+  font-size: 3rem; /* Larger icons */
+  color: #ecf0f1;
+  transition: color 0.3s ease, transform 0.3s ease; /* Smooth hover effects */
+}
+
+.socialIcon:hover {
+  color: #3498db; /* Accent color on hover */
+  transform: scale(1.1); /* Slight scale effect on hover */
+}
+
+.columnTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #3498db; /* Accent color for headings */
+}
+
+.linkList,
+.contactList {
+  list-style: none;
+  padding: 0;
+}
+
+.linkList li,
+.contactList li {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.linkList li a,
+.contactList li a {
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.linkList li a:hover,
+.contactList li a:hover {
+  color: #3498db; /* Accent color on hover */
+  text-decoration: underline; /* Subtle underline on hover */
+}
+
+.copyright {
+  text-align: center;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(236, 240, 241, 0.1); /* Subtle separator */
+  /* margin-top: 2rem; */
+  font-size: 0.9rem;
+  color: #bdc3c7; /* Slightly muted text */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .socials {
+    justify-content: center;
+  }
+
+  .column {
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 120px; /* Smaller logo on mobile */
+  }
+
+  .socialIcon {
+    font-size: 1.5rem; /* Smaller icons on mobile */
+  }
+
+  .columnTitle {
+    font-size: 1.1rem;
+  }
+}

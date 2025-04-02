@@ -1,0 +1,138 @@
+/* Main container */
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Instruction box styles */
+.instructionBox {
+  background-color: #f9fafb;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.instructionBox h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.highlight {
+  color: #4f46e5;
+  font-weight: 600;
+}
+
+/* Instruction list */
+.instructions {
+  list-style: none;
+  padding: 0;
+  font-size: 16px;
+  color: #666;
+}
+
+.instructions li {
+  margin-bottom: 10px;
+}
+
+/* Form title */
+.formTitle {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Error message styling */
+.errorMessage {
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 400;
+  margin: 0 0 20px;
+  padding: 4px 8px;
+  background-color: #fef2f2;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Form styles */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form input:focus,
+.form textarea:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 4px rgba(79, 70, 229, 0.3);
+}
+
+.form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Button styling */
+.form button {
+  padding: 10px;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  align-self: flex-start;
+}
+
+.form button:hover {
+  background-color: #4338ca;
+  transform: translateY(-1px);
+}
+
+.form button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+  .instructionBox h2 {
+    font-size: 20px;
+  }
+  .instructions {
+    font-size: 14px;
+  }
+  .form input,
+  .form textarea {
+    font-size: 13px;
+  }
+  .form button {
+    font-size: 14px;
+    padding: 8px;
+    align-self: center;
+    width: 100%;
+  }
+}

@@ -1,0 +1,9 @@
+# Node modules for both frontend and backend
+**/node_modules/
+
+# Environment variables (sensitive data)
+**/.env
+
+# Build output folders
+frontend/dist/
+backend/build/

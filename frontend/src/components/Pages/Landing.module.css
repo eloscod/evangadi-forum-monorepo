@@ -1,0 +1,42 @@
+.landingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 20px;
+  background-color: #f9fafb; /* Example background color */
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 1200px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.loginSection {
+  flex: 1;
+  padding: 40px;
+  border-right: 1px solid #eee;
+}
+
+.aboutSection {
+  flex: 1;
+  padding: 40px;
+  background-color: #f3f4f6; /* Light contrasting background for about section */
+}
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+  }
+  .loginSection {
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+}
