@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "setup": "node src/config/setup.js"
+    "setup": "node src/config/setup.js",
+    "build": "npm run build"
   },
   "author": "Osama Mohammed Hussen",
   "license": "MIT",
