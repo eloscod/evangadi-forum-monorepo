@@ -147,13 +147,13 @@ const register = async (req, res) => {
   }
 };
 
-// Controller to log in a user
+// Controller to log in a user with additional debug logs
 const login = async (req, res) => {
-  // Extract email and password from the request body
   const { email, password } = req.body;
 
-  // Validate that email and password are provided
+  // Validate inputs
   if (!email || !password) {
+    console.log("Missing email or password in the request");
     return res.status(StatusCodes.BAD_REQUEST).json({
       error: "Bad Request",
       message: "Please provide email and password",
@@ -161,23 +161,40 @@ const login = async (req, res) => {
   }
 
   try {
-    // Fetch the user by email from the database
+    console.log("Attempting login for email:", email);
+
+    // Query the database
     const [user] = await dbConnection.query(
       "SELECT * FROM userTable WHERE email = ?",
       [email.toLowerCase()]
     );
+    console.log("User record from DB:", user);
 
-    // Check if the user exists
-    if (user.length === 0) {
+    // Check if user is found
+    if (!user || user.length === 0) {
+      console.log("No user found with email:", email);
       return res.status(StatusCodes.UNAUTHORIZED).json({
         error: "Unauthorized",
         message: "Invalid email or password",
       });
     }
 
-    // Compare the provided password with the hashed password
-    const isMatch = await bcrypt.compare(password, user[0].password);
+    // Verify that the password exists in the database
+    const dbPassword = user[0].password;
+    if (!dbPassword) {
+      console.error("No password found in DB for user:", email);
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        error: "Internal Server Error",
+        message: "Password missing from database",
+      });
+    }
+
+    // Compare passwords using bcrypt
+    const isMatch = await bcrypt.compare(password, dbPassword);
+    console.log("Password match result for email:", email, isMatch);
+
     if (!isMatch) {
+      console.log("Incorrect password for email:", email);
       return res.status(StatusCodes.UNAUTHORIZED).json({
         error: "Unauthorized",
         message: "Invalid email or password",
@@ -186,23 +203,25 @@ const login = async (req, res) => {
 
     // Generate a JWT token for the user
     const token = jwt.sign(
-      { userid: user[0].user_id, username: user[0].user_name },
+      {
+        userid: user[0].user_id,
+        username: user[0].user_name,
+      },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" } // Token expires in 1 hour
+      { expiresIn: "1h" }
     );
 
-    // Return success response with the token and username
-    res.status(StatusCodes.OK).json({
+    console.log("Token generated successfully for email:", email);
+    return res.status(StatusCodes.OK).json({
       message: "User login successful",
       token,
       username: user[0].user_name,
     });
   } catch (error) {
-    // Log and handle any errors
-    console.error("Error in login:", error);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    console.error("Error in login controller:", error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: "Internal Server Error",
-      message: "An unexpected error occurred",
+      message: error.message || "An unexpected error occurred",
     });
   }
 };
@@ -217,7 +236,6 @@ const checkUser = async (req, res) => {
       userid: req.user.userid,
     });
   } catch (error) {
-    // Log and handle any errors
     console.error("Error in checkUser:", error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: "Internal Server Error",
@@ -252,7 +270,6 @@ const getCurrentUser = async (req, res) => {
       username: user[0].user_name,
     });
   } catch (error) {
-    // Log and handle any errors
     console.error("Error in getCurrentUser:", error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: "Internal Server Error",
@@ -321,7 +338,6 @@ const forgotPassword = async (req, res) => {
       message: "If this email exists, a reset link will be sent.",
     });
   } catch (error) {
-    // Log and handle any errors
     console.error("Error in forgotPassword:", error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: "Internal Server Error",
@@ -389,7 +405,7 @@ const resetPassword = async (req, res) => {
         email: "osydosam@gmail.com",
         name: "Evangadi Networks",
       },
-      templateId: "d-0d0f936116624f368682d725b0a96441", //
+      templateId: "d-0d0f936116624f368682d725b0a96441",
       dynamic_template_data: {
         username: user[0].user_name,
         loginLink: loginLink,
@@ -417,7 +433,6 @@ const resetPassword = async (req, res) => {
       });
     }
 
-    // Log and handle any other errors
     console.error("Error in resetPassword:", error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error: "Internal Server Error",
