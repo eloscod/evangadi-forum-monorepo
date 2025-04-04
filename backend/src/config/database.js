@@ -8,13 +8,18 @@ console.log("📄 DB_CA Path from .env:", process.env.DB_CA);
 
 let sslOptions = null;
 
-if (process.env.DB_CA && fs.existsSync(process.env.DB_CA)) {
+// Only apply SSL if NOT using localhost and the CA file exists
+if (
+  process.env.DB_HOST !== "localhost" &&
+  process.env.DB_CA &&
+  fs.existsSync(process.env.DB_CA)
+) {
   console.log("📄 File exists: true");
   const caContent = fs.readFileSync(process.env.DB_CA);
   console.log("🔐 SSL CA content length:", caContent.length);
   sslOptions = { ca: caContent };
 } else {
-  console.log("❌ CA file not found or missing path");
+  console.log("Skipping SSL: not required for localhost or file not found");
 }
 
 const dbConnection = mysql2.createPool({
@@ -24,11 +29,11 @@ const dbConnection = mysql2.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   ssl: sslOptions,
-  connectTimeout: 10000,
+  connectTimeout: 3000,
   connectionLimit: 10,
 });
 
-// Test connection
+// Test the DB connection
 dbConnection.getConnection((err, connection) => {
   if (err) {
     console.error("❌ Error connecting to the database:", err.message);
